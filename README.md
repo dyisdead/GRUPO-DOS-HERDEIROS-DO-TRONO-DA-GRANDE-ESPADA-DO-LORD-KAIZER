@@ -5,6 +5,8 @@
 Entrega 1 de trabalho da disciplina Estruturas de Dados II — UNICID Prof. Cid Rodrigues de Andrade
 👥 Integrantes do Grupo
 Nome completo
+Diogo Henrique Pinheiro Da Silva Pedro
+Bruno Theodoro Nascimento
 RA
 
 
