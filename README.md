@@ -65,7 +65,6 @@ Escolher as duas permite comparar na prática o trade-off **leitura vs. escrita*
 - [ ] Busca
 - [ ] Percursos (pré-ordem, em ordem, pós-ordem)
 - [ ] Balanceamento (rotações/recoloração)
-- [ ] Outra: ______
 
 ### 2.4 Complexidade
 
