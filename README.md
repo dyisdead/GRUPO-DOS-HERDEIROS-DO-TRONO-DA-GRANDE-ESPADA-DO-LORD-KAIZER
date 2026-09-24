@@ -12,8 +12,6 @@ Prof. Cid Rodrigues de Andrade
 | Diogo Henrique Pinheiro Da Silva | 43614442 |
 | Pedro Henrique Segala | 43695469 |
 | Marconio Soares de Sousa Junior | 43840868 |
-| Bruno Oliveira Theodoro | 43023452 |
-| Kauan Albas Elias | 43555829 |
 
 ---
 
@@ -21,12 +19,12 @@ Prof. Cid Rodrigues de Andrade
 
 ### 1.1 Descrição
 
-Dataset sintético combinando Pokémons e personagens humano, itens e variações, gerado a partir de dados base da PokéAPI. Cada registro representa uma criatura ou personagem com atributos como espécie/nome, gênero, variante shiny, 4 ataques e valores de IV. Formato: CSV/JSON. Volume alvo: entre 300 mil e 500 mil registros, dentro da faixa exigida (50 mil a 1 milhão).
+Dataset sintético combinando Pokémons e personagens humanos, gerado a partir de dados base da PokéAPI. Cada registro representa uma criatura ou personagem com atributos como espécie/nome, gênero, variante shiny, 4 ataques e valores de IV. Formato: CSV/JSON. Volume alvo: entre 300 mil e 500 mil registros, dentro da faixa exigida (50 mil a 1 milhão).
 
 ### 1.2 Fonte
 
-- Dados base de espécies e movimentos: PokéAPI (https://pokeapi.co/).
-- Registros individuais: gerados pelo grupo por amostragem aleatória dentro do espaço de combinações possíveis. Não é uma enumeração exaustiva de todas as combinações, que passaria de centenas de milhões.
+- Dados base de espécies e movimentos: PokéAPI (https://pokeapi.co/)
+- Registros individuais: gerados pelo grupo por amostragem aleatória dentro do espaço de combinações possíveis. Não é uma enumeração exaustiva de todas as combinações, que passaria de centenas de milhões
 
 ### 1.3 Estrutura dos dados
 
@@ -96,13 +94,23 @@ Validar a corretude das operações (inserção, busca, remoção) e o balanceam
 | 2 | Buscas aleatórias em amostra representativa | Tempo médio de busca compatível com O(log n) | ☐ |
 | 3 | Remoções em lote seguidas de validação de invariantes | Estrutura permanece válida (AVL: fator -1 a 1; RN: 5 regras de cor) | ☐ |
 
+### 3.2.1 Metodologia de execução
+
+- **Tamanhos de entrada testados:** 1.000 / 10.000 / 100.000 / 300.000 / 500.000 registros, inseridos em ordem progressiva pra observar o crescimento do tempo em cada faixa
+- **Repetições por teste:** cada medição roda 5 vezes com o mesmo tamanho de entrada; o resultado reportado é a média e o desvio padrão das 5 execuções (evita que uma variação pontual da máquina distorça o gráfico)
+- **Busca (Cenário 2):** amostra de 1.000 buscas aleatórias por rodada, metade com chaves existentes e metade com chaves inexistentes (pra testar também o caso de busca sem sucesso)
+- **Remoção (Cenário 3):** remove-se 10% dos registros inseridos, escolhidos aleatoriamente, e as invariantes são checadas logo depois de cada lote de remoção (não só no final)
+- **Ordem de inserção:** um teste com dados em ordem aleatória (caso médio/comum) e outro com dados em ordem crescente de total_stats (pior caso teórico pra uma BST simples), pra reforçar por que o balanceamento importa
+- **Ferramenta de cronometragem:** função de tempo da própria linguagem escolhida pra implementação (ex: `time.perf_counter()` em Python ou `System.nanoTime()` em Java), medindo só o tempo da operação em si, sem contar geração/leitura do dataset
+
 ### 3.3 Casos extremos (edge cases)
 
 - Árvore vazia
 - Único elemento
-- Dados duplicados (mesmo total_stats)
+- Dados duplicados (mesmo total_stats) — inserir 3 registros com o mesmo valor e conferir se todos entram sem quebrar as regras
 - Dados inseridos em ordem crescente/decrescente (pior caso pra BST simples)
 - Volume máximo do dataset (~500 mil registros)
+- Remover todos os elementos até a árvore ficar vazia de novo, conferindo se o estado final é consistente
 
 ### 3.4 Testes de desempenho (Para Entrega 2)
 
@@ -111,6 +119,7 @@ Descreva como o grupo mediu tempo de execução e/ou uso de memória, e com quai
 ### 3.5 Resultados obtidos (Para Entrega 2)
 
 Resuma os resultados (tabelas, gráficos ou links para arquivos de saída na pasta /resultados) e compare-os com a complexidade assintótica (Big-O) teórica.
+
 
 ---
 
