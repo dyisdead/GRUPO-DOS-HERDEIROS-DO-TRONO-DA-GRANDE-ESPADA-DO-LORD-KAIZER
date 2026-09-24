@@ -21,7 +21,7 @@ Prof. Cid Rodrigues de Andrade
 
 ### 1.1 Descrição
 
-Dataset sintético combinando Pokémons e personagens humanos, gerado a partir de dados base da PokéAPI. Cada registro representa uma criatura ou personagem com atributos como espécie/nome, gênero, variante shiny, 4 ataques e valores de IV. Formato: CSV/JSON. Volume alvo: entre 300 mil e 500 mil registros, dentro da faixa exigida (50 mil a 1 milhão).
+Dataset sintético combinando Pokémons e personagens humano, itens e variações, gerado a partir de dados base da PokéAPI. Cada registro representa uma criatura ou personagem com atributos como espécie/nome, gênero, variante shiny, 4 ataques e valores de IV. Formato: CSV/JSON. Volume alvo: entre 300 mil e 500 mil registros, dentro da faixa exigida (50 mil a 1 milhão).
 
 ### 1.2 Fonte
 
