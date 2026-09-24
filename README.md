@@ -9,8 +9,9 @@ Prof. Cid Rodrigues de Andrade
 
 | Nome completo | RA |
 |---|---|
-| Diogo Henrique Pinheiro Da Silva | _____ |
-| Pedro Bruno Theodoro Nascimento | _____ |
+| Diogo Henrique Pinheiro Da Silva | 43614442 |
+| Pedro Henrique Segala | 43695469 |
+| Marconio Soares de Sousa Junior | 43840868 |
 
 ---
 
