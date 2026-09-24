@@ -12,7 +12,7 @@ Prof. Cid Rodrigues de Andrade
 | Diogo Henrique Pinheiro Da Silva | 43614442 |
 | Pedro Henrique Segala | 43695469 |
 | Marconio Soares de Sousa Junior | 43840868 |
-
+| Bruno Oliveira Theodoro | 43023452 |
 ---
 
 ## 1. Dataset
