@@ -2,7 +2,7 @@
 
 PokéTree: AVL vs Rubro-Negra (sugestão de nome, trocar se o grupo preferir outro)
 
-Entrega 1 do trabalho da disciplina Estruturas de Dados II - UNICID
+Entrega 1 do trabalho da disciplina Estruturas de Dados II - UNICID.
 Prof. Cid Rodrigues de Andrade
 
 ## Integrantes do Grupo
