@@ -141,4 +141,4 @@ README.md
 ## 5. Referências
 
 - PokéAPI - https://pokeapi.co/
-- Adicionar demais materiais consultados (livros, artigos, aulas)
+- Adicionar demais materiais consultados (livros, artigos, aulas).
