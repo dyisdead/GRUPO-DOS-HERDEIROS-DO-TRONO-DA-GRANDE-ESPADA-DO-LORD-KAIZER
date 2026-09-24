@@ -12,7 +12,7 @@ Prof. Cid Rodrigues de Andrade
 | Diogo Henrique Pinheiro Da Silva | 43614442 |
 | Pedro Henrique Segala | 43695469 |
 | Marconio Soares de Sousa Junior | 43840868 |
-| Bruno Oliveira Theodoro | 43023452 |
+
 ---
 
 ## 1. Dataset
@@ -104,11 +104,11 @@ Validar a corretude das operações (inserção, busca, remoção) e o balanceam
 
 ### 3.4 Testes de desempenho (Para Entrega 2)
 
-Medir tempo de execução e uso de memória com tamanhos de entrada crescentes (ex: 1.000, 10.000, 100.000, 500.000 registros), comparando o número de rotações/comparações entre AVL e Rubro-Negra.
+Descreva como o grupo mediu tempo de execução e/ou uso de memória, e com quais tamanhos de entrada (ex: 100, 1.000, 10.000 registros).
 
 ### 3.5 Resultados obtidos (Para Entrega 2)
 
-A preencher na Entrega 2, com tabelas, gráficos de tempo x tamanho de entrada (escala log) e comparação com a complexidade Big-O teórica. Arquivos de saída em /resultados.
+Resuma os resultados (tabelas, gráficos ou links para arquivos de saída na pasta /resultados) e compare-os com a complexidade assintótica (Big-O) teórica.
 
 ---
 
@@ -116,15 +116,13 @@ A preencher na Entrega 2, com tabelas, gráficos de tempo x tamanho de entrada (
 
 ### 4.1 Pré-requisitos (Para Entrega 2)
 
-A definir: linguagem, versão e dependências.
+Linguagem, versão e dependências necessárias.
 
 ### 4.2 Instruções (Para Entrega 2)
 
-```
-git clone <repositorio>
-cd <pasta-do-projeto>
-# comandos de compilação/execução
-```
+Exemplo:
+- git clone / cd
+- comandos de compilação/execução
 
 ### 4.3 Estrutura do repositório
 
@@ -141,4 +139,4 @@ README.md
 ## 5. Referências
 
 - PokéAPI - https://pokeapi.co/
-- Adicionar demais materiais consultados (livros, artigos, aulas).
+- Adicionar demais materiais consultados (livros, artigos, aulas)
