@@ -2,7 +2,7 @@
 
 PokéTree: AVL vs Rubro-Negra (sugestão de nome, trocar se o grupo preferir outro)
 
-Entrega 1 do trabalho da disciplina Estruturas de Dados II - UNICID.
+Entrega 1 do trabalho da disciplina Estruturas de Dados II - UNICID
 Prof. Cid Rodrigues de Andrade
 
 ## Integrantes do Grupo
@@ -25,8 +25,8 @@ Dataset sintético combinando Pokémons e personagens humanos, gerado a partir d
 
 ### 1.2 Fonte
 
-- Dados base de espécies e movimentos: PokéAPI (https://pokeapi.co/)
-- Registros individuais: gerados pelo grupo por amostragem aleatória dentro do espaço de combinações possíveis. Não é uma enumeração exaustiva de todas as combinações, que passaria de centenas de milhões
+- Dados base de espécies e movimentos: PokéAPI (https://pokeapi.co/).
+- Registros individuais: gerados pelo grupo por amostragem aleatória dentro do espaço de combinações possíveis. Não é uma enumeração exaustiva de todas as combinações, que passaria de centenas de milhões.
 
 ### 1.3 Estrutura dos dados
 
