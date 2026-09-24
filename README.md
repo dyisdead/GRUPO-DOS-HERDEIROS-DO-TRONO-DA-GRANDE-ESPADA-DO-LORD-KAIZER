@@ -1,6 +1,6 @@
 # GRUPO DOS HERDEIROS DO TRONO DA GRANDE ESPADA DO LORD KAIZER
 
-**PokéTree: AVL vs Rubro-Negra** *(sugestão de nome — trocar se o grupo preferir outro)*
+**PokéTree: AVL vs Rubro-Negra**
 
 Entrega 1 do trabalho da disciplina Estruturas de Dados II — UNICID
 Prof. Cid Rodrigues de Andrade
