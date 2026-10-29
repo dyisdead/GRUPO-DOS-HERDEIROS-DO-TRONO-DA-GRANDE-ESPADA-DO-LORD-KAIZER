@@ -1,0 +1,23 @@
+Como funcionam
+
+AVL: mantém a árvore bem equilibrada. A diferença de altura entre os dois lados de qualquer nó é no máximo 1, e ela rotaciona sempre que isso é violado.
+Rubro-Negra: usa cores nos nós (vermelho/preto) e regras mais frouxas. A árvore fica um pouco mais alta, mas precisa de menos rotações.
+
+Qual é melhor? Nenhuma ganha sempre, depende do uso.
+
+AVL: melhor para muita busca e pouca escrita, porque é mais baixa.
+Rubro-Negra: melhor para muita inserção e remoção, porque rotaciona menos.
+
+Nos nossos testes de 500 mil registros, a AVL ficou com altura 22 e a Rubro-Negra com 23. A Rubro-Negra fez cerca de 346 mil rotações contra 398 mil da AVL. Em tempo de inserção as duas ficaram parecidas, com leve vantagem da Rubro-Negra. Nenhuma das duas degenerou nem com os dados em ordem crescente, que é o pior caso para uma árvore comum.
+
+Como está o projeto
+
+Correto e funcional: as duas árvores, o dataset real de 500 mil registros, os testes de corretude (7 casos extremos mais dados reais) e o teste de desempenho. Tudo passou, sem erro de memória.
+Pronto para o que o README pede: inserção, busca, remoção, percursos e balanceamento estão implementados e validados.
+
+O que falta antes de entregar
+
+Preencher o README: as seções 2.3 (checkboxes das operações), 3.4 e 3.5 (como mediram e os resultados) e 4 (como executar) ainda estão com o texto padrão.
+Gráficos e análise: o Makefile cita um gerar_graficos.py que não existe. Os números estão no CSV, mas ninguém os transformou em gráfico nem comparou com O(log n). É a parte que mais pesa na nota, provavelmente.
+Medida de memória: o README promete medir “tempo, altura, rotações e memória”, mas a memória não é medida ainda.
+Rodar na máquina de vocês: o README pede medição “logo após ligar a máquina, sem outros programas”. Rodem a bateria completa lá e usem esse CSV, não o meu.
