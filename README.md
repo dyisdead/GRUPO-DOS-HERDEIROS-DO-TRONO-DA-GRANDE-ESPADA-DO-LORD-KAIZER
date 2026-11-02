@@ -183,3 +183,40 @@ README.md
 ## 5. Referências
 
 * PokéAPI - https://pokeapi.co/
+
+---
+
+## 6. Executável (Windows / Linux)
+
+Os executáveis prontos ficam na pasta [`executaveis/`](executaveis/). O código-fonte está em [`src/`](src/) e [`app/`](app/), os testes em [`testes/`](testes/), e os gráficos dos resultados em [`graficos/`](graficos/).
+
+| Sistema | Arquivo | Como abrir |
+|---|---|---|
+| Windows 10/11 (x64) | [`PokeTree-windows.zip`](executaveis/PokeTree-windows.zip) | extraia o zip e dê dois cliques em `poketree.exe` |
+| Linux (x86_64) | [`PokeTree-linux.tar.gz`](executaveis/PokeTree-linux.tar.gz) | `tar xzf PokeTree-linux.tar.gz && cd PokeTree-linux && ./poketree` |
+
+A integridade dos arquivos pode ser conferida com `sha256sum -c SHA256SUMS.txt` dentro de `executaveis/`.
+
+### Passo a passo
+
+**Passo 1 - Extraia o arquivo.** A pasta resultante tem `dataset/`, `LEIAME.txt` e o `poketree` (`poketree.exe` no Windows). Mantenha a pasta `dataset/` ao lado do executável.
+
+![Passo 1 - pasta extraída](docs/passo1.jpeg)
+
+**Passo 2 - Abra o executável.** Windows: dois cliques em `poketree.exe` (se o SmartScreen avisar, "Mais informações" > "Executar assim mesmo"). Linux: `./poketree` no terminal (se der "Permission denied", rode `chmod +x poketree`).
+
+![Passo 2 - executável destacado](docs/passo2.jpeg)
+
+**Passo 3 - Aguarde o carregamento.** Em cerca de 3 s os 500.000 registros são carregados nas duas árvores (AVL e Rubro-Negra) e a janela do app abre. É necessária internet para as imagens dos Pokémon (PokéAPI).
+
+![Passo 3 - app com 500.000 registros carregados](docs/passo3.jpeg)
+
+**Passo 4 - Faça uma busca.** Digite um nome (ex.: `pikachu`) ou um ID e clique em **Buscar**. O app mostra o caminho percorrido em cada árvore, o número de comparações, a Pokédex do registro e o comparativo de métricas.
+
+![Passo 4 - busca por pikachu](docs/passo4.jpeg)
+
+**Passo 5 - Remova um registro.** Com um registro selecionado (ex.: `#1405`), clique em **Remover por ID**. Ele é removido das duas árvores, o contador cai para 499.999 nós e o histórico mostra as rotações/recolorações da operação. Ao buscar o mesmo ID de novo, o app responde "não encontrado" nas duas árvores, com o número de comparações de cada uma.
+
+![Passo 5 - remoção do registro #1405](docs/passo5.jpeg)
+
+Para encerrar, feche a janela do app (ou `Ctrl+C` no terminal). O servidor roda só localmente em `http://127.0.0.1:8765/`.
