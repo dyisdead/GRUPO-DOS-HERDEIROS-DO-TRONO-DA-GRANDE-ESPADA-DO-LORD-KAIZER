@@ -1,0 +1,24 @@
+# executaveis gerados pela compilacao
+teste_corretude
+teste_desempenho
+*.exe
+*.o
+*.out
+
+# Python
+__pycache__/
+*.pyc
+
+# editor / sistema
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# saida do teste rapido (a bateria completa fica no repositorio)
+resultados/resultados_rapido.csv
+
+# app grafico
+poketree
+dist/
+app/index_html.h

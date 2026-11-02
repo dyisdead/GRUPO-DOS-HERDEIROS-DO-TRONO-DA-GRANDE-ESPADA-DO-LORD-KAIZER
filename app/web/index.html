@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PokeTree - AVL vs Rubro-Negra</title>
+<style>
+:root{
+  --bg:#070d1c; --bg2:#0b1530; --panel:#0e1a33; --panel2:#101f3d; --line:#1d2f55;
+  --txt:#e8eefc; --mut:#8fa3c7; --blue:#2f7bff; --blue2:#1f5fd1; --red:#d1343c; --red2:#a8232b;
+  --gold:#ffb21e; --green:#2ecc71; --purple:#7b4dff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{
+  background:radial-gradient(1200px 600px at 80% -10%,#13244a 0%,transparent 60%),var(--bg);
+  color:var(--txt);font:14px/1.35 "Segoe UI",Inter,system-ui,-apple-system,Roboto,sans-serif;
+  min-width:1180px;display:flex;flex-direction:column;gap:10px;padding:10px 14px;height:100vh;overflow:hidden
+}
+button,input,select{font:inherit;color:inherit}
+svg.i{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* cabecalho */
+header{display:flex;align-items:center;gap:22px;padding:2px 4px}
+.logo{display:flex;align-items:center;gap:12px}
+.logo svg{width:54px;height:54px}
+.logo h1{margin:0;font-size:34px;font-weight:800;letter-spacing:.5px;line-height:1}
+.logo h1 span{color:var(--blue)}
+.logo small{display:block;color:var(--mut);font-size:16px;font-weight:600;margin-top:2px}
+.logo small b{color:#9ec0ff}
+.pill{display:flex;align-items:center;gap:10px;border:1px solid #1e7a4a;background:linear-gradient(#0f2a25,#0b2020);color:#c9f7dc;
+  padding:10px 18px;border-radius:999px;font-weight:600}
+.pill svg{color:var(--green)}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+.univ{margin-left:auto;color:var(--mut);font-size:15px}
+
+/* barra de ferramentas */
+.bar{display:flex;align-items:center;gap:12px}
+.search{display:flex;align-items:center;gap:0;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px;flex:0 1 640px}
+.search label{display:flex;align-items:center;gap:10px;flex:1;background:#14264a;border-radius:8px;padding:0 12px;height:44px;color:var(--mut)}
+.search input{flex:1;background:none;border:0;outline:0;font-size:16px;color:var(--txt);min-width:0}
+.search input::placeholder{color:#7f93b8}
+.btn{display:flex;align-items:center;gap:9px;height:46px;padding:0 18px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);
+  cursor:pointer;font-weight:600;font-size:15px;white-space:nowrap}
+.btn:hover{filter:brightness(1.18)}
+.btn:disabled{opacity:.5;cursor:wait}
+.btn.blue{background:linear-gradient(#3b86ff,#1f62d6);border-color:#4f93ff;margin-left:8px;height:44px}
+.btn.purple{background:linear-gradient(#7d55ff,#5a35d8);border-color:#9174ff}
+.btn.add svg{color:#58a6ff}.btn.del svg{color:#ff5b64}
+.qtd{display:flex;align-items:center;gap:10px;color:var(--mut);margin-left:6px}
+.qtd select{height:46px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:0 12px;font-size:16px;color:var(--txt)}
+.qtd select option{background:#0e1a33}
+.bar .sp{flex:1}
+
+/* grade principal */
+main{flex:1;min-height:0;display:grid;grid-template-columns:290px minmax(0,1fr) minmax(0,1fr) 310px;gap:12px}
+.col{display:flex;flex-direction:column;gap:12px;min-height:0}
+.card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:12px;padding:14px;min-height:0}
+.card h2{margin:0 0 10px;font-size:19px;display:flex;align-items:center;gap:10px}
+.dex{flex:0 0 auto}
+.dexhead{display:flex;gap:14px;align-items:center;border-bottom:1px solid var(--line);padding-bottom:12px}
+.sprite{width:104px;height:104px;border-radius:10px;background:#0a1630;display:flex;align-items:center;justify-content:center;flex:none;position:relative}
+.sprite img{width:96px;height:96px;image-rendering:pixelated;object-fit:contain}
+.sprite .star{position:absolute;top:4px;right:6px;color:var(--gold);font-size:16px}
+.dexhead .no{font-size:30px;font-weight:800;line-height:1}
+.dexhead .nm{font-size:17px;color:#cfdcf7;margin-top:6px;word-break:break-word}
+.kv{display:flex;align-items:center;gap:10px;margin:9px 0;font-size:15px}
+.kv svg{color:var(--gold)}
+.kv.g svg{color:#ff7a45}
+.atk{border-top:1px solid var(--line);padding-top:10px;margin-top:6px}
+.atk b{display:flex;align-items:center;gap:8px;font-size:14px;margin-bottom:4px}
+.atk b svg{color:#58a6ff}
+.atk ol{margin:0;padding-left:44px;color:#cfdcf7;font-size:14px}
+.key{display:flex;gap:8px;align-items:flex-start;margin-top:10px;font-size:13.5px;color:#cfdcf7;word-break:break-word}
+.key svg{color:#58a6ff;margin-top:1px}
+.results{flex:1;display:flex;flex-direction:column}
+.results h2{font-size:16px;justify-content:space-between}
+.badge{background:var(--blue2);color:#fff;border-radius:6px;padding:1px 9px;font-size:13px}
+.list{overflow:auto;flex:1;min-height:60px;margin:0 -4px;padding:0 4px}
+.row{display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:7px;cursor:pointer;font-size:14.5px}
+.row:hover{background:#17294d}
+.row.sel{background:var(--blue2)}
+.row .n{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .v{font-variant-numeric:tabular-nums}
+.row.off{opacity:.45;text-decoration:line-through}
+.ball{width:18px;height:18px;flex:none}
+.empty{color:var(--mut);padding:8px;font-size:14px}
+
+/* paineis das arvores */
+.tp{display:flex;flex-direction:column;padding:0;overflow:hidden}
+.tp.avl{border-color:#1f62d6}.tp.rn{border-color:#a8232b}
+.tph{display:flex;align-items:center;gap:8px;padding:12px 12px;font-weight:700;font-size:17px;white-space:nowrap}
+.tp.avl .tph{background:linear-gradient(#173a7c,#10264f)}
+.tp.rn .tph{background:linear-gradient(#6d1f27,#431219)}
+.tph .h{font-size:12px;font-weight:600;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:2px 12px;background:rgba(0,0,0,.25)}
+.tph .res{margin-left:auto;font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px}
+.res.ok{color:#d7ffe6}.res.ok::before{content:"✔";background:var(--green);color:#052;border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:11px}
+.res.bad{color:#ffd0d3}.res.bad::before{content:"✖";background:#ff4d57;color:#fff;border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:11px}
+.tpb{flex:1;min-height:0;overflow:auto;position:relative;
+  background-image:linear-gradient(rgba(70,110,190,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(70,110,190,.10) 1px,transparent 1px);
+  background-size:32px 32px;background-color:#08122a}
+.tp.rn .tpb{background-color:#16091a}
+.tpb svg{display:block;margin:0 auto}
+.vazio{color:var(--mut);padding:24px;text-align:center}
+
+/* direita */
+.cmp table{width:100%;border-collapse:collapse;font-size:13.5px}
+.cmp th{font-weight:600;font-size:12px;padding-bottom:8px;text-align:right;white-space:nowrap}
+.cmp th span{padding:3px 8px;border-radius:5px}
+.cmp th .a{background:#1c3f86}.cmp th .r{background:#7d1f27}
+.cmp td{padding:6px 0;border-top:1px solid rgba(255,255,255,.04)}
+.cmp td:first-child{color:#b6c6e6}
+.cmp td+td{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;padding-left:10px}
+.cmp td.w{color:#7dffb0;font-weight:700}
+.met h2{font-size:15px}
+.mrow{margin-bottom:10px;font-size:13px;color:#cfdcf7}
+.mrow svg{width:100%;height:46px;display:block;margin-top:4px}
+
+/* historico */
+.hist{flex:0 0 150px;display:flex;flex-direction:column;padding:10px 14px}
+.hist .hh{display:flex;align-items:center;margin-bottom:4px}
+.hist h2{margin:0;font-size:16px;flex:1}
+.hist .btn{height:30px;font-size:13px;padding:0 12px}
+.log{flex:1;overflow:auto;font-family:ui-monospace,Consolas,monospace;font-size:13.5px}
+.log div{display:flex;gap:10px;align-items:center;padding:3px 0}
+.log i{width:12px;height:12px;border-radius:50%;flex:none}
+.log time{color:var(--mut)}
+.log .ok i{background:var(--green)}.log .info i{background:var(--blue)}.log .err i{background:#ff4d57}
+footer{text-align:right;color:var(--mut);font-size:12px;font-style:italic;padding-right:4px}
+
+/* overlay */
+#busy{position:fixed;inset:0;background:rgba(5,10,24,.75);display:none;align-items:center;justify-content:center;z-index:9;font-size:20px;font-weight:700}
+#busy.on{display:flex}
+#busy div{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:26px 38px;display:flex;gap:16px;align-items:center}
+.spin{width:26px;height:26px;border:4px solid #2a3f6e;border-top-color:var(--blue);border-radius:50%;animation:g 0.8s linear infinite}
+@keyframes g{to{transform:rotate(360deg)}}
+.noderect{cursor:pointer}
+.noderect:hover circle{filter:brightness(1.3)}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></symbol>
+    <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6M4 11.5v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></symbol>
+    <symbol id="i-tree" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M11 7.2 7 15.8M13 7.2l4 8.6"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+    <symbol id="i-bars" viewBox="0 0 24 24"><path d="M5 20V10M12 20V4M19 20v-7"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z" fill="currentColor"/></symbol>
+    <symbol id="i-sword" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.500 7-10V6z" fill="currentColor"/></symbol>
+    <symbol id="i-term" viewBox="0 0 24 24"><path d="m5 7 5 5-5 5M12 18h7"/></symbol>
+    <symbol id="i-gender" viewBox="0 0 24 24"><circle cx="10" cy="14" r="5"/><path d="m14 10 6-6M15 4h5v5"/></symbol>
+    <symbol id="ball" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#fff" stroke="#111" stroke-width="2"/><path d="M2 16a14 14 0 0 1 28 0z" fill="#e8353b" stroke="#111" stroke-width="2"/><path d="M2 16h28" stroke="#111" stroke-width="2.5"/><circle cx="16" cy="16" r="4.5" fill="#fff" stroke="#111" stroke-width="2.5"/></symbol>
+  </defs>
+</svg>
+
+<header>
+  <div class="logo">
+    <svg viewBox="0 0 32 32"><use href="#ball"/></svg>
+    <div><h1>Poke<span>Tree</span></h1><small><b>AVL</b> vs <b>Rubro-Negra</b></small></div>
+  </div>
+  <div class="pill"><svg class="i"><use href="#i-db"/></svg><span id="pill">carregando…</span><i></i></div>
+  <div class="univ">Estruturas de Dados II – UNICID</div>
+</header>
+
+<div class="bar">
+  <div class="search">
+    <label><svg class="i"><use href="#i-search"/></svg>
+      <input id="q" placeholder="Buscar por ID ou Nome (ex: pikachu)" autocomplete="off" spellcheck="false"></label>
+    <button class="btn blue" id="bBuscar"><svg class="i"><use href="#i-search"/></svg>Buscar</button>
+  </div>
+  <button class="btn add" id="bIns"><svg class="i"><use href="#i-plus"/></svg>Inserir Próximo</button>
+  <button class="btn del" id="bDel"><svg class="i"><use href="#i-trash"/></svg>Remover por ID</button>
+  <div class="qtd">Qtd. inicial:
+    <select id="qtd">
+      <option value="7">7</option><option value="15">15</option><option value="31">31</option>
+      <option value="63">63</option><option value="127">127</option><option value="1000">1.000</option>
+      <option value="10000">10.000</option><option value="100000">100.000</option>
+      <option value="0" selected>500.000 (todos)</option>
+    </select>
+  </div>
+  <div class="sp"></div>
+  <button class="btn purple" id="bLoad"><svg class="i"><use href="#i-db"/></svg>Carregar Dataset</button>
+</div>
+
+<main>
+  <div class="col">
+    <div class="card dex" id="dex">
+      <h2><svg class="ball" viewBox="0 0 32 32"><use href="#ball"/></svg>Pokédex</h2>
+      <div class="dexhead">
+        <div class="sprite"><img id="spr" alt=""><span class="star" id="sstar" hidden>★</span></div>
+        <div><div class="no" id="dNo">—</div><div class="nm" id="dNm">Busque um registro</div></div>
+      </div>
+      <div class="kv g"><svg class="i"><use href="#i-gender"/></svg>Gênero: <span id="dGen">—</span></div>
+      <div class="kv"><svg class="i"><use href="#i-star"/></svg>IVs: <span id="dIv">—</span></div>
+      <div class="kv" style="color:#fff"><svg class="i" style="color:#ffb21e"><use href="#i-bars"/></svg>Total stats: <span id="dTs">—</span></div>
+      <div class="atk"><b><svg class="i"><use href="#i-sword"/></svg>Ataques:</b><ol id="dAt"><li>—</li></ol></div>
+      <div class="key"><svg class="i"><use href="#i-shield"/></svg><span>Chave: <span id="dKey">—</span></span></div>
+    </div>
+    <div class="card results">
+      <h2>Resultados da busca <span class="badge" id="rCnt">0</span></h2>
+      <div class="list" id="rList"><div class="empty">Nenhuma busca ainda.</div></div>
+    </div>
+  </div>
+
+  <div class="card tp avl">
+    <div class="tph"><svg class="i"><use href="#i-tree"/></svg>Árvore AVL <span class="h" id="hA">Altura: –</span><span class="res" id="rA"></span></div>
+    <div class="tpb" id="tA"></div>
+  </div>
+  <div class="card tp rn">
+    <div class="tph"><svg class="i"><use href="#i-lock"/></svg>Árvore Rubro-Negra <span class="h" id="hR">Altura: –</span><span class="res" id="rR"></span></div>
+    <div class="tpb" id="tR"></div>
+  </div>
+
+  <div class="col">
+    <div class="card cmp">
+      <h2><svg class="i" style="color:#58a6ff"><use href="#i-bars"/></svg>Comparativo</h2>
+      <table id="cmp"></table>
+    </div>
+    <div class="card met">
+      <h2><svg class="i"><use href="#i-bars"/></svg>Métricas</h2>
+      <div class="mrow">Rotações (AVL)<svg id="mA" preserveAspectRatio="none"></svg></div>
+      <div class="mrow">Recolorações (RN)<svg id="mR" preserveAspectRatio="none"></svg></div>
+    </div>
+  </div>
+</main>
+
+<div class="card hist">
+  <div class="hh"><h2 style="display:flex;gap:8px;align-items:center"><svg class="i"><use href="#i-term"/></svg>Histórico de Operações</h2>
+    <button class="btn" id="bClr"><svg class="i" style="width:15px;height:15px"><use href="#i-trash"/></svg>Limpar</button></div>
+  <div class="log" id="log"></div>
+</div>
+<footer>PokeTree – Visualizando Estruturas de Dados de Forma Inteligente</footer>
+
+<div id="busy"><div><span class="spin"></span><span id="busyTxt">Carregando…</span></div></div>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const fmt = n => Number(n).toLocaleString('pt-BR');
+const BALL = "data:image/svg+xml;utf8," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#fff" stroke="#111" stroke-width="2"/><path d="M2 16a14 14 0 0 1 28 0z" fill="#e8353b" stroke="#111" stroke-width="2"/><path d="M2 16h28" stroke="#111" stroke-width="2.5"/><circle cx="16" cy="16" r="4.5" fill="#fff" stroke="#111" stroke-width="2.5"/></svg>');
+const SPR = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
+let selId = 0, busy = false;
+
+async function api(path){
+  const r = await fetch('/api/' + path);
+  return r.json();
+}
+function setBusy(on, txt){ busy = on; $('busy').classList.toggle('on', on); if(txt) $('busyTxt').textContent = txt;
+  for (const id of ['bBuscar','bIns','bDel','bLoad']) $(id).disabled = on; }
+
+/* ---------- historico ---------- */
+function log(msg, tipo='ok'){
+  const d = document.createElement('div'); d.className = tipo;
+  const t = new Date().toLocaleTimeString('pt-BR');
+  d.innerHTML = '<i></i><time>' + t + '</time><span></span>';
+  d.lastChild.textContent = msg;
+  $('log').appendChild(d); $('log').scrollTop = $('log').scrollHeight;
+}
+$('bClr').onclick = () => { $('log').innerHTML = ''; };
+
+/* ---------- estado / comparativo / metricas ---------- */
+function mem(b){ return (b/1048576).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1}) + ' MB'; }
+function bars(svg, arr, cor){
+  const W = 220, H = 46, n = 30, bw = W / n;
+  const max = Math.max(1, ...arr);
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  let s = '';
+  arr.forEach((v, i) => {
+    const h = Math.max(2, v / max * (H - 2));
+    s += `<rect x="${(n - arr.length + i) * bw + 1}" y="${H - h}" width="${bw - 2}" height="${h}" fill="${cor}" rx="1"/>`;
+  });
+  svg.innerHTML = s;
+}
+function estado(e){
+  $('pill').textContent = fmt(e.nos) + ' registros carregados';
+  const a = e.avl, r = e.rn;
+  const row = (nome, va, vr, menor) => {
+    let ca = '', cr = '';
+    if (menor && typeof va === 'number' && typeof vr === 'number' && va !== vr) { if (va < vr) ca = 'w'; else cr = 'w'; }
+    return `<tr><td>${nome}</td><td class="${ca}">${typeof va === 'number' ? fmt(va) : va}</td><td class="${cr}">${typeof vr === 'number' ? fmt(vr) : vr}</td></tr>`;
+  };
+  $('cmp').innerHTML =
+    '<tr><th></th><th><span class="a">AVL</span></th><th><span class="r">Rubro-Negra</span></th></tr>' +
+    row('Nós', e.nos, e.nos) + row('Altura', a.altura, r.altura, true) + row('Rotações', a.rot, r.rot, true) +
+    row('Recolorações', '–', r.rec) + row('Comparações', a.comp, r.comp, true) +
+    row('Últ. busca', a.ult, r.ult, true) + row('Memória', mem(a.mem), mem(r.mem));
+  bars($('mA'), a.hist, '#2f7bff'); bars($('mR'), r.hist, '#e0343d');
+  $('hA').textContent = 'Altura: ' + a.altura; $('hR').textContent = 'Altura: ' + r.altura;
+}
+
+/* ---------- desenho das arvores (layout por contornos) ---------- */
+const SEP = 44, DY = 54;
+function layout(n){
+  // devolve {left:[], right:[]} (contornos relativos a n.x = 0) e define n.dx dos filhos
+  const kids = [];
+  if (n.l) kids.push(['l', n.l]);
+  if (n.r) kids.push(['r', n.r]);
+  n.kids = kids.map(k => k[1]);
+  if (!n.z) kids.forEach(k => k[1].side = k[0]);
+  if (kids.length === 0) { n.left = [0]; n.right = [0]; return; }
+  kids.forEach(k => layout(k[1]));
+  if (kids.length === 1) {
+    const c = kids[0][1], dx = kids[0][0] === 'l' ? -SEP / 2 : SEP / 2;
+    c.dx = dx;
+    n.left = [0].concat(c.left.map(v => v + dx));
+    n.right = [0].concat(c.right.map(v => v + dx));
+    return;
+  }
+  const L = kids[0][1], R = kids[1][1];
+  let shift = SEP;
+  const m = Math.min(L.right.length, R.left.length);
+  for (let k = 0; k < m; k++) shift = Math.max(shift, L.right[k] - R.left[k] + SEP);
+  L.dx = -shift / 2; R.dx = shift / 2;
+  const depth = Math.max(L.left.length, R.left.length);
+  n.left = [0]; n.right = [0];
+  for (let k = 0; k < depth; k++) {
+    const lv = [], rv = [];
+    if (k < L.left.length) { lv.push(L.left[k] + L.dx); rv.push(L.right[k] + L.dx); }
+    if (k < R.left.length) { lv.push(R.left[k] + R.dx); rv.push(R.right[k] + R.dx); }
+    n.left.push(Math.min(...lv)); n.right.push(Math.max(...rv));
+  }
+}
+function place(n, x, y, out){
+  n.x = x; n.y = y; out.push(n);
+  (n.kids || []).forEach(c => place(c, x + c.dx, y + DY, out));
+}
+function short(z){ return z >= 1e6 ? (z / 1e6).toFixed(1).replace('.0','') + 'M' : z >= 1000 ? Math.round(z / 1000) + 'k' : String(z); }
+
+function drawTree(el, root, rb){
+  if (!root) { el.innerHTML = '<div class="vazio">Árvore vazia</div>'; return; }
+  layout(root);
+  const nodes = []; place(root, 0, 0, nodes);
+  let minx = Infinity, maxx = -Infinity, maxy = 0;
+  nodes.forEach(n => { minx = Math.min(minx, n.x); maxx = Math.max(maxx, n.x); maxy = Math.max(maxy, n.y); });
+  const pad = 34;
+  const W = maxx - minx + pad * 2, H = maxy + pad * 2;
+  const ox = pad - minx, oy = pad;
+  let edges = '', body = '';
+  nodes.forEach(n => (n.kids || []).forEach(c => {
+    const hot = n.p && c.p;
+    edges += `<line x1="${n.x + ox}" y1="${n.y + oy}" x2="${c.x + ox}" y2="${c.y + oy}" stroke="${hot ? '#ffb21e' : '#6f84ad'}" stroke-width="${hot ? 2.4 : 1.3}" opacity="${hot ? 1 : .75}"/>`;
+  }));
+  nodes.forEach(n => {
+    const x = n.x + ox, y = n.y + oy;
+    if (n.z !== undefined) {
+      body += `<g><rect x="${x - 19}" y="${y - 12}" width="38" height="24" rx="4" fill="#0c1730" stroke="#8da2c9" stroke-dasharray="3 3"/>` +
+              `<text x="${x}" y="${y + 4.5}" text-anchor="middle" fill="#d6e2fb" font-size="12.5" font-weight="600">${short(n.z)}</text></g>`;
+      return;
+    }
+    let fill, stroke, tcol = '#fff';
+    if (!rb) { fill = n.f ? 'url(#gF)' : 'url(#gB)'; stroke = n.f ? '#ffb21e' : '#7fb0ff'; }
+    else if (n.o) { fill = n.f ? 'url(#gF)' : 'url(#gR)'; stroke = n.f ? '#ffb21e' : '#ff8a8f'; }
+    else { fill = n.f ? 'url(#gF)' : '#0b0d14'; stroke = n.f ? '#ffb21e' : '#e9eefc'; }
+    const glow = n.f ? ' filter="url(#glow)"' : '';
+    body += `<g class="noderect" data-id="${n.i}"><title>#${n.i} ${n.n} (stats ${n.k})</title>` +
+      `<circle cx="${x}" cy="${y}" r="${n.f ? 17 : 15}" fill="${fill}" stroke="${stroke}" stroke-width="${n.f ? 3 : 2}"${glow}/>` +
+      `<text x="${x}" y="${y + 4.5}" text-anchor="middle" fill="${tcol}" font-size="${String(n.k).length > 3 ? 11 : 12.5}" font-weight="700">${n.k}</text></g>`;
+  });
+  const defs = `<defs>
+    <radialGradient id="gB" cx="35%" cy="30%"><stop offset="0" stop-color="#5aa0ff"/><stop offset="1" stop-color="#1a54c4"/></radialGradient>
+    <radialGradient id="gR" cx="35%" cy="30%"><stop offset="0" stop-color="#ff6a70"/><stop offset="1" stop-color="#b3222a"/></radialGradient>
+    <radialGradient id="gF" cx="35%" cy="30%"><stop offset="0" stop-color="#b57aff"/><stop offset="1" stop-color="#5b2bc4"/></radialGradient>
+    <filter id="glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>`;
+  const avail = Math.max(300, el.clientWidth - 8);
+  const sc = Math.max(0.6, Math.min(1, avail / W));
+  el.innerHTML = `<svg width="${W * sc}" height="${H * sc}" viewBox="0 0 ${W} ${H}">${defs}${edges}${body}</svg>`;
+  el.querySelectorAll('.noderect').forEach(g => g.onclick = () => selecionar(+g.dataset.id, true));
+  const alvo = el.querySelector('circle[stroke="#ffb21e"]');
+  if (alvo) { const cy = +alvo.getAttribute('cy') * sc; el.scrollTop = Math.max(0, cy - el.clientHeight * 0.65); }
+  else el.scrollTop = 0;
+}
+
+/* ---------- pokedex ---------- */
+function setSprite(r){
+  const img = $('spr');
+  img.onerror = () => { img.onerror = null; img.src = BALL; img.style.opacity = .6; };
+  img.style.opacity = 1;
+  if (r.pid) img.src = SPR + (r.shiny ? 'shiny/' : '') + r.pid + '.png';
+  else img.src = BALL;
+}
+function genero(g){ return g === 'macho' ? 'Macho' : g === 'femea' ? 'Fêmea' : 'Sem gênero'; }
+function dex(r, presente){
+  $('dNo').textContent = '#' + r.id;
+  $('dNm').textContent = r.nome + (r.shiny ? ' (shiny)' : '') + (presente ? '' : ' — removido');
+  $('dGen').textContent = genero(r.genero);
+  $('dIv').textContent = r.ivs;
+  $('dTs').textContent = r.total;
+  $('dAt').innerHTML = r.ataques.map(a => '<li>' + a.replace(/</g,'&lt;') + '</li>').join('');
+  $('dKey').textContent = `(${r.total}, ${r.nome}, ${r.id})`;
+  $('sstar').hidden = !r.shiny;
+  setSprite(r);
+}
+
+/* ---------- operacoes ---------- */
+function resultado(el, t, achou, comp){
+  el.className = 'res ' + (achou ? 'ok' : 'bad');
+  el.textContent = achou ? `Encontrado: ${comp} comparações` : `Não encontrado: ${comp} comparações`;
+}
+async function selecionar(id, clique){
+  selId = id;
+  const v = await api('ver?id=' + id);
+  if (!v.ok) { log(v.erro, 'err'); return; }
+  estado(v.estado);
+  drawTree($('tA'), v.avl.arv, false);
+  drawTree($('tR'), v.rn.arv, true);
+  if (v.reg) {
+    dex(v.reg, v.presente);
+    resultado($('rA'), 'AVL', v.avl.achou, v.avl.comp);
+    resultado($('rR'), 'RN', v.rn.achou, v.rn.comp);
+    document.querySelectorAll('#rList .row').forEach(r => r.classList.toggle('sel', +r.dataset.id === id));
+    log(`Busca por ID #${id}: ${v.avl.achou ? 'encontrado' : 'não encontrado'} (AVL ${v.avl.comp} | RN ${v.rn.comp} comparações).`, v.avl.achou ? 'ok' : 'err');
+    log('Comparação AVL x Rubro-Negra concluída.', 'info');
+  } else { $('rA').textContent = ''; $('rR').textContent = ''; $('rA').className = $('rR').className = 'res'; }
+}
+function lista(l, total){
+  $('rCnt').textContent = fmt(total);
+  if (!l.length) { $('rList').innerHTML = '<div class="empty">Nenhum resultado.</div>'; return; }
+  $('rList').innerHTML = l.map(x => `<div class="row${x.presente ? '' : ' off'}" data-id="${x.id}"><svg class="ball" viewBox="0 0 32 32"><use href="#ball"/></svg><span class="n">${x.nome.replace(/</g,'&lt;')}</span><span class="v">${x.total}</span></div>`).join('');
+  $('rList').querySelectorAll('.row').forEach(r => r.onclick = () => selecionar(+r.dataset.id, true));
+}
+async function buscar(){
+  const q = $('q').value.trim();
+  const b = await api('buscar?q=' + encodeURIComponent(q));
+  if (!b.ok) { log(b.erro, 'err'); return; }
+  lista(b.lista, b.total);
+  if (b.modo === 'nome') log(`Busca por nome "${q}": ${fmt(b.total)} resultado(s).`, b.total ? 'ok' : 'err');
+  if (b.lista.length) { await selecionar(b.lista[0].id); }
+}
+async function inserir(){
+  setBusy(true, 'Inserindo…');
+  try {
+    const r = await api('inserir');
+    if (!r.ok) { log(r.erro, 'err'); return; }
+    log(`Inserido #${r.id} (${r.nome}): AVL ${r.rot_avl} rot. | RN ${r.rot_rn} rot., ${r.rec_rn} recol.`, 'ok');
+    await selecionar(r.id);
+  } finally { setBusy(false); }
+}
+async function remover(){
+  const m = $('q').value.trim().match(/^#?(\d+)$/);
+  const id = m ? +m[1] : selId;
+  if (!id) { log('Digite um ID no campo de busca (ou selecione um registro) para remover.', 'err'); return; }
+  setBusy(true, 'Removendo…');
+  try {
+    const r = await api('remover?id=' + id);
+    if (!r.ok) { log(r.erro, 'err'); return; }
+    log(`Removido #${r.id} (${r.nome}): AVL ${r.rot_avl} rot. | RN ${r.rot_rn} rot., ${r.rec_rn} recol.`, 'ok');
+    await selecionar(id);
+  } finally { setBusy(false); }
+}
+async function carregar(){
+  setBusy(true, 'Carregando dataset nas duas árvores…');
+  await new Promise(r => setTimeout(r, 60));
+  try {
+    const r = await api('carregar?n=' + $('qtd').value);
+    log(`Dataset carregado: ${fmt(r.n)} registros (AVL ${r.t_avl.toFixed(2)} s | RN ${r.t_rn.toFixed(2)} s).`, 'ok');
+    await selecionar(0);
+    lista([], 0);
+  } finally { setBusy(false); }
+}
+
+$('bBuscar').onclick = buscar;
+$('q').addEventListener('keydown', e => { if (e.key === 'Enter') buscar(); });
+$('bIns').onclick = inserir; $('bDel').onclick = remover; $('bLoad').onclick = carregar;
+window.addEventListener('pagehide', () => { try { navigator.sendBeacon('/api/sair'); } catch(e){} });
+
+(async () => {
+  $('spr').src = BALL; $('spr').style.opacity = .5;
+  const e = await api('estado');
+  log(`Dataset carregado: ${fmt(e.estado.nos)} registros nas duas árvores.`, 'ok');
+  await selecionar(0);
+})();
+</script>
+</body>
+</html>
