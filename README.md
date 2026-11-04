@@ -96,7 +96,7 @@ Implementação em C (C11), sem bibliotecas externas, nas duas árvores:
 * [x] Busca (`avl_buscar` / `rn_buscar`)
 * [x] Percursos (pré-ordem, em ordem, pós-ordem)
 * [x] Balanceamento (AVL: rotações simples e duplas; Rubro-Negra: rotações + recoloração, com sentinela NIL)
-* [x] Outras: validação programática das invariantes (`avl_validar` / `rn_validar`), contagem de comparações, rotações e recolorações, estimativa de memória, e app gráfico com visualização do caminho de busca (bônus)
+* [x] Outras: validação programática das invariantes (`avl_validar` / `rn_validar`), contagem de comparações, rotações e recolorações, estimativa de memória, programa principal no terminal (`src/main.c`, `make run`) com menu de busca, inserção, remoção, percursos e validação, e app gráfico com visualização do caminho de busca (bônus)
 
 ### 2.4 Complexidade
 
@@ -132,7 +132,7 @@ Validar a corretude das operações (inserção, busca, remoção) e o balanceam
 * **Repetições por teste:** cada medição roda 5 vezes com o mesmo tamanho de entrada; o resultado reportado é a média e o desvio padrão das 5 execuções (evita que uma variação pontual da máquina distorça o gráfico)
 * **Busca (Cenário 2):** amostra de 1.000 buscas aleatórias por rodada, metade com chaves existentes e metade com chaves inexistentes (pra testar também o caso de busca sem sucesso)
 * **Remoção (Cenário 3):** remove-se 10% dos registros inseridos, escolhidos aleatoriamente, e as invariantes são checadas logo depois de cada lote de remoção (não só no final)
-* **Ordem de inserção:** um teste com dados em ordem aleatória (caso médio/comum) e outro com dados em ordem crescente de total_stats (pior caso teórico pra uma BST simples), pra reforçar por que o balanceamento importa
+* **Ordem de inserção:** três ordens para cada tamanho: aleatória (caso médio/comum), crescente e decrescente de chave (pior caso teórico pra uma BST simples), pra reforçar por que o balanceamento importa
 * **Ferramenta de cronometragem:** `clock_gettime(CLOCK_MONOTONIC)` em C, medindo só o tempo da operação em si, sem contar a leitura do dataset (o CSV é carregado na memória antes de começar a medir)
 
 ### 3.3 Casos extremos (edge cases)
@@ -266,6 +266,8 @@ README.md
 ## 5. Referências
 
 * PokéAPI - https://pokeapi.co/
+* CORMEN, T. H.; LEISERSON, C. E.; RIVEST, R. L.; STEIN, C. *Algoritmos: teoria e prática*. 3. ed. Rio de Janeiro: Elsevier, 2012. Cap. 13 (Árvores Rubro-Negras), base da implementação em `src/rubro_negra.c`.
+* ADELSON-VELSKY, G. M.; LANDIS, E. M. An algorithm for the organization of information. *Soviet Mathematics Doklady*, v. 3, p. 1259-1263, 1962. Artigo original da árvore AVL.
 
 ---
 
