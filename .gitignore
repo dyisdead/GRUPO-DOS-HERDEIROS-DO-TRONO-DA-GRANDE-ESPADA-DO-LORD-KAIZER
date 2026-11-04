@@ -1,4 +1,5 @@
 # executaveis gerados pela compilacao
+poketree_cli
 teste_corretude
 teste_desempenho
 *.exe
