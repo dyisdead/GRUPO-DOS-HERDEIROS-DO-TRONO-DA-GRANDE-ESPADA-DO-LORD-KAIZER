@@ -236,6 +236,8 @@ Gráficos (gerados por `graficos/gerar_graficos.py` a partir do CSV):
 git clone https://github.com/dyisdead/GRUPO-DOS-HERDEIROS-DO-TRONO-DA-GRANDE-ESPADA-DO-LORD-KAIZER.git
 cd GRUPO-DOS-HERDEIROS-DO-TRONO-DA-GRANDE-ESPADA-DO-LORD-KAIZER
 
+make run          # programa principal no terminal (menu: busca, inserção, remoção, percursos, validação)
+make run N=10000  # mesmo programa carregando só 10 mil registros
 make testes       # testes de corretude (invariantes e casos extremos)
 make desempenho   # bateria rápida (1.000 e 10.000 registros)
 make completo     # bateria completa (1k a 500k) + gráficos (demora alguns minutos)
@@ -247,7 +249,7 @@ make limpar       # apaga os executáveis compilados
 ### 4.3 Estrutura do repositório
 
 ```
-/src          -> código-fonte das árvores (avl.c, rubro_negra.c), registro e leitura do dataset
+/src          -> código-fonte das árvores (avl.c, rubro_negra.c), registro, leitura do dataset e main.c (programa principal)
 /testes       -> testes de corretude e de desempenho
 /dataset      -> dataset (500 mil registros), base de espécies e gerador
 /resultados   -> CSV com os resultados das medições

@@ -3,9 +3,17 @@ CFLAGS = -Wall -Wextra -O2 -std=c11
 SRC = src/registro.c src/avl.c src/rubro_negra.c src/dataset.c
 PYTHON ?= python3
 
-.PHONY: all testes desempenho completo graficos dataset app limpar
+.PHONY: all testes desempenho completo graficos dataset app run limpar
 
-all: testes desempenho
+all: poketree_cli testes desempenho
+
+# Programa principal (menu no terminal)
+poketree_cli: src/main.c $(SRC) src/*.h
+	$(CC) $(CFLAGS) -o $@ src/main.c $(SRC) -lm
+
+# Roda o programa principal (ex.: make run N=10000 para carregar so 10 mil)
+run: poketree_cli
+	./poketree_cli $(N)
 
 teste_corretude: testes/teste_corretude.c $(SRC) src/*.h
 	$(CC) $(CFLAGS) -o $@ testes/teste_corretude.c $(SRC) -lm
@@ -43,4 +51,4 @@ app:
 	cd app && ./build.sh
 
 limpar:
-	rm -f teste_corretude teste_desempenho poketree *.exe
+	rm -f poketree_cli teste_corretude teste_desempenho poketree *.exe
