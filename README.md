@@ -131,7 +131,7 @@ Validar a corretude das operações (inserção, busca, remoção) e o balanceam
 * **Aquecimento (warm-up):** a primeira execução de cada tamanho de entrada é descartada antes das 5 repetições, para reduzir efeitos de cache e de alocação de memória
 * **Repetições por teste:** cada medição roda 5 vezes com o mesmo tamanho de entrada; o resultado reportado é a média e o desvio padrão das 5 execuções (evita que uma variação pontual da máquina distorça o gráfico)
 * **Busca (Cenário 2):** amostra de 1.000 buscas aleatórias por rodada, metade com chaves existentes e metade com chaves inexistentes (pra testar também o caso de busca sem sucesso)
-* **Remoção (Cenário 3):** remove-se 10% dos registros inseridos, escolhidos aleatoriamente, e as invariantes são checadas logo depois de cada lote de remoção (não só no final)
+* **Remoção (Cenário 3):** remove-se 10% dos registros inseridos, escolhidos aleatoriamente, e as invariantes são checadas ao final da fase de remoção; no teste de corretude (caso 8), a validação é feita a cada remoção individual
 * **Ordem de inserção:** três ordens para cada tamanho: aleatória (caso médio/comum), crescente e decrescente de chave (pior caso teórico pra uma BST simples), pra reforçar por que o balanceamento importa
 * **Ferramenta de cronometragem:** `clock_gettime(CLOCK_MONOTONIC)` em C, medindo só o tempo da operação em si, sem contar a leitura do dataset (o CSV é carregado na memória antes de começar a medir)
 
